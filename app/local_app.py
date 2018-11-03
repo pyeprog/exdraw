@@ -1,3 +1,5 @@
+import _pickle as pkl
+from os.path import isfile
 from time import sleep, time
 from watchgod import watch, Change
 
@@ -7,8 +9,8 @@ from config.local import LocalConfig
 class LocalApp(object):
     def __init__(self, watch_path=None):
         self.watch_path = LocalConfig.WATCH_PATH if watch_path is None else watch_path
-        self.register = dict()
-
+        self.register = set()
+ 
     def run(self):
         self.start()
         try:
@@ -29,5 +31,18 @@ class LocalApp(object):
 
     def handler(self):
         for changes in watch(self.watch_path):
-            for change in changes:
-                pass
+            for op_type, filepath in changes:
+                print(op_type, filepath)
+                if filepath not in self.register and op_type in {Change.modified, Change.added}:
+                    self.register.add(filepath)
+                    content = self._readfile(filepath)
+                    print(content)
+
+    @staticmethod
+    def _readfile(path):
+        assert isfile(path), "Invalid file path"
+        with open(path, "rb") as fp:
+            content = pkl.load(fp)
+        return content
+
+
