@@ -1,5 +1,5 @@
 from os.path import join, realpath
 
 
-class Conifg:
+class LocalConifg:
     WATCH_PATH = join(realpath("."), "underwatch")

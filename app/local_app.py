@@ -1,7 +1,14 @@
 from time import sleep, time
+from watchgod import watch, Change
+
+from config.local import LocalConfig
 
 
 class LocalApp(object):
+    def __init__(self, watch_path=None):
+        self.watch_path = LocalConfig.WATCH_PATH if watch_path is None else watch_path
+        self.register = dict()
+
     def run(self):
         self.start()
         try:
@@ -16,12 +23,11 @@ class LocalApp(object):
         print("DO some cleaning")
 
     def watch(self, handler, t_interval):
-        start_t = time()
         while True:
             sleep(t_interval)
             handler()
-            running_time = int(time() - start_t)
-            print("\rServer is running for {}s".format(running_time), flush=True)
 
     def handler(self):
-        print("handle some work")
+        for changes in watch(self.watch_path):
+            for change in changes:
+                pass
