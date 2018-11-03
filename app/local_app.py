@@ -2,6 +2,7 @@ import _pickle as pkl
 from os.path import isfile
 from time import sleep, time
 from watchgod import watch, Change
+from multiprocessing import Process
 
 from config.local import LocalConfig
 
@@ -14,7 +15,7 @@ class LocalApp(object):
     def run(self):
         self.start()
         try:
-            self.watch(self.handler, 1)
+            self.watch(self.main_handler, 1)
         except KeyboardInterrupt:
             self.end()
 
@@ -29,14 +30,13 @@ class LocalApp(object):
             sleep(t_interval)
             handler()
 
-    def handler(self):
+    def main_handler(self):
         for changes in watch(self.watch_path):
             for op_type, filepath in changes:
-                print(op_type, filepath)
                 if filepath not in self.register and op_type in {Change.modified, Change.added}:
                     self.register.add(filepath)
-                    content = self._readfile(filepath)
-                    print(content)
+                    self.spawn_process(self._readfile(filepath))
+
 
     @staticmethod
     def _readfile(path):
@@ -45,4 +45,12 @@ class LocalApp(object):
             content = pkl.load(fp)
         return content
 
+    @staticmethod
+    def spawn_process(content):
+        print(content)
+        cur_process = Process(target=test_func, args=(content,))
+        cur_process.start()
+        cur_process.join()
 
+def test_func(*args):
+    print(args)
