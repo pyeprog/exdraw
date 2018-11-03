@@ -1,6 +1,6 @@
 import _pickle as pkl
 from os.path import isfile
-from time import sleep, time
+from time import sleep
 from watchgod import watch, Change
 from multiprocessing import Process
 
