@@ -13,3 +13,4 @@ class LocalMultiProcess(BaseProcess):
     def do(cls, method, content):
         cur_process = Process(target=method, args=(content,))
         cur_process.start()
+
