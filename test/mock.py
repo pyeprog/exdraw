@@ -18,13 +18,8 @@ def _get_file_path():
 
 
 def _dump(obj):
-    with open(_get_file_path(), "w") as fp:
+    with open(_get_file_path(), "wb") as fp:
         pkl.dump(obj, fp)
-
-
-def _shapely_dump(obj):
-    with open(_get_file_path(), "w") as fp:
-        dump(obj, fp)
 
 
 def mock_local_save_polygon():
@@ -34,4 +29,4 @@ def mock_local_save_polygon():
     end_p = (10, 0)
     p_list = [start_p, first_p, second_p, end_p]
     eg_polygon = Polygon(p_list)
-    _shapely_dump(eg_polygon)
+    _dump(eg_polygon)
