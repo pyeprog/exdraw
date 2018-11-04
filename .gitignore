@@ -1,1 +1,4 @@
 underwatch/*
+.idea/*
+.idea
+*__pycache__

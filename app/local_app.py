@@ -1,17 +1,19 @@
 import _pickle as pkl
 from os.path import isfile
 from time import sleep
+
 from watchgod import watch, Change
-from multiprocessing import Process
 
 from config.local import LocalConfig
+from draw.shapely import ShapelyDrawer
+from process.local_process import LocalProcess
 
 
 class LocalApp(object):
     def __init__(self, watch_path=None):
         self.watch_path = LocalConfig.WATCH_PATH if watch_path is None else watch_path
         self.register = set()
- 
+
     def run(self):
         self.start()
         try:
@@ -31,12 +33,13 @@ class LocalApp(object):
             handler()
 
     def main_handler(self):
+        print('watching {}'.format(self.watch_path))
         for changes in watch(self.watch_path):
-            for op_type, filepath in changes:
-                if filepath not in self.register and op_type in {Change.modified, Change.added}:
-                    self.register.add(filepath)
-                    self.spawn_process(self._readfile(filepath))
-
+            for op_type, file_path in changes:
+                print(op_type, file_path)
+                if file_path not in self.register and op_type in {Change.modified, Change.added}:
+                    self.register.add(file_path)
+                    LocalProcess.do(ShapelyDrawer.draw_geom, self._readfile(file_path))
 
     @staticmethod
     def _readfile(path):
@@ -44,13 +47,3 @@ class LocalApp(object):
         with open(path, "rb") as fp:
             content = pkl.load(fp)
         return content
-
-    @staticmethod
-    def spawn_process(content):
-        print(content)
-        cur_process = Process(target=test_func, args=(content,))
-        cur_process.start()
-        cur_process.join()
-
-def test_func(*args):
-    print(args)
