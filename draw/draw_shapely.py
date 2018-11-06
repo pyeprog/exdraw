@@ -1,7 +1,7 @@
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 # from descartes import PolygonPatch
 # from shapely.geometry import LineString, Polygon
-# from geopandas import GeoSeries
+from geopandas import GeoSeries
 
 
 class ShapelyDrawer(object):
@@ -20,11 +20,11 @@ class ShapelyDrawer(object):
     @staticmethod
     def draw_geom(geom):
         # todo(pye): Test the draw_geom and make it work
-        print("In draw_geom", geom)
-        # pltGeoSeries([geom]).plot(ax=plt.gca())
-        # ax = plt.gca()
+        # print("In draw_geom", geom)
+        GeoSeries([geom]).plot(ax=plt.gca())
+        ax = plt.gca()
         # ShapelyDrawer._draw_polygon(ax, geom)
-        # plt.show()
+        plt.show()
 
 
     @staticmethod

@@ -5,7 +5,7 @@ from time import sleep
 from watchgod import watch, Change
 
 from config.local import LocalConfig
-from draw.shapely import ShapelyDrawer
+from draw.draw_shapely import ShapelyDrawer
 from process.local_process import LocalProcess
 
 
