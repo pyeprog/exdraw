@@ -6,7 +6,7 @@ from watchgod import watch, Change
 
 from config.local import LocalConfig
 from draw.draw_shapely import ShapelyDrawer
-from process.local_process import LocalProcess
+from process.local_process import LocalProcess, LocalMultiProcess
 
 
 class LocalApp(object):
@@ -39,7 +39,7 @@ class LocalApp(object):
                 print(op_type, file_path)
                 if file_path not in self.register and op_type in {Change.modified, Change.added}:
                     self.register.add(file_path)
-                    LocalProcess.do(ShapelyDrawer.draw_geom, self._readfile(file_path))
+                    LocalMultiProcess.do(ShapelyDrawer.draw_geom, self._readfile(file_path))
 
     @staticmethod
     def _readfile(path):
