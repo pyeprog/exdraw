@@ -6,20 +6,10 @@ from watchgod import Change, watch
 from multiprocessing import Process
 
 from drawer import Drawer
+from config import FuncType, info_dict
 
 
 class LocalApp(object):
-    def __init__(self):
-        self.cwd = os.path.dirname(__file__)
-        self.inject_path = os.getcwd()
-        self.cwd = "./" if len(self.cwd) == 0 else self.cwd
-        self.inject_path = "./" if len(self.inject_path) == 0 else self.inject_path
-        self.inject_module_path = os.path.join(self.inject_path, "probe")
-        self.module_src_path = os.path.join(self.cwd, "_probe")
-        self.watching_path = os.path.join(self.cwd, "watching")
-        self.probe_config_path = os.path.join(self.module_src_path, "config")
-        self.info_dict = {"watching_path": self.watching_path}
-
     def run(self):
         self._inject_config_to_probe()
         self._setUp()
@@ -34,24 +24,24 @@ class LocalApp(object):
         
     def _setUp(self):
         self._tearDown()
-        copytree(self.module_src_path, self.inject_module_path)
+        copytree(info_dict["module_src_path"], info_dict["inject_module_path"])
         print("Injection done")
 
     def _inject_config_to_probe(self):
-        with open(self.probe_config_path, "wb") as fp:
-            pkl.dump(self.info_dict, fp)
+        with open(info_dict["probe_config_path"], "wb") as fp:
+            pkl.dump(info_dict, fp)
 
     def _tearDown(self):
-        if os.path.isdir(self.inject_module_path):
-            rmtree(self.inject_module_path)
+        if os.path.isdir(info_dict["inject_module_path"]):
+            rmtree(info_dict["inject_module_path"])
         print("Cleaning done")
 
     def _tear_config_in_probe(self):
-        if os.path.isfile(self.probe_config_path):
-            os.remove(self.probe_config_path)
+        if os.path.isfile(info_dict["probe_config_path"]):
+            os.remove(info_dict["probe_config_path"])
 
     def _work(self):
-        for changes in watch(self.watching_path):
+        for changes in watch(info_dict["watching_path"]):
             for op_type, changed_file_path in changes:
                 if op_type == Change.added:
                     self._handler(changed_file_path)
@@ -61,10 +51,11 @@ class LocalApp(object):
         try:
             with open(file_path, "rb") as fp:
                 content = pkl.load(fp)
-            wp = Process(target=Drawer.mock_draw, args=(content,))
+            func_type, arguments = content
+            wp = Process(target=Drawer.get_drawer(func_type), args=(arguments,))
             wp.start()
         except:
-            return
+            print("The file cannot be read properly")
         
 
 if __name__ == '__main__':
