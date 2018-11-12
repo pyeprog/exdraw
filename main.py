@@ -5,25 +5,30 @@ from shutil import copytree, rmtree
 from watchgod import Change, watch
 from multiprocessing import Process
 
-from drawer import Drawer
+from drawer import get_drawer
 from config import FuncType, info_dict
 
 
 class LocalApp(object):
     def run(self):
+        self._examine_watching_dir()
         self._inject_config_to_probe()
-        self._setUp()
+        self._inject_probe()
         while True:
             try:
                 self._work()
                 sleep(0.5)
             except KeyboardInterrupt:
                 break
-        self._tearDown()
-        self._tear_config_in_probe()
+        self._clean_injection()
+        self._rm_config_in_probe()
         
-    def _setUp(self):
-        self._tearDown()
+    def _examine_watching_dir(self):
+        if not os.path.isdir(info_dict["watching_path"]):
+            os.mkdir(info_dict["watching_path"])
+
+    def _inject_probe(self):
+        self._clean_injection()
         copytree(info_dict["module_src_path"], info_dict["inject_module_path"])
         print("Injection done")
 
@@ -31,12 +36,12 @@ class LocalApp(object):
         with open(info_dict["probe_config_path"], "wb") as fp:
             pkl.dump(info_dict, fp)
 
-    def _tearDown(self):
+    def _clean_injection(self):
         if os.path.isdir(info_dict["inject_module_path"]):
             rmtree(info_dict["inject_module_path"])
         print("Cleaning done")
 
-    def _tear_config_in_probe(self):
+    def _rm_config_in_probe(self):
         if os.path.isfile(info_dict["probe_config_path"]):
             os.remove(info_dict["probe_config_path"])
 
@@ -48,12 +53,14 @@ class LocalApp(object):
 
     @staticmethod
     def _handler(file_path):
+        print("read in file {}".format(file_path))
         try:
             with open(file_path, "rb") as fp:
                 content = pkl.load(fp)
             func_type, arguments = content
-            wp = Process(target=Drawer.get_drawer(func_type), args=(arguments,))
+            wp = Process(target=get_drawer(func_type), args=(arguments,))
             wp.start()
+            wp.join()
         except:
             print("The file cannot be read properly")
         

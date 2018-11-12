@@ -1,11 +1,12 @@
+import os
 from enum import Enum, unique
 
 
 @unique
 class FuncType(Enum):
-    draw_single_shapely: 0
-    draw_shapely_one_by_one: 1
-    draw_all_shapely: 2
+    draw_single_shapely = 0
+    draw_shapely_one_by_one = 1
+    draw_all_shapely = 2
 
 cwd = os.path.dirname(__file__)
 cwd = "./" if len(cwd) == 0 else cwd

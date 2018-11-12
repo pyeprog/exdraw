@@ -1,5 +1,5 @@
 underwatch
-underwatch/*
+underwatch/
 .idea
-exdraw-venv/*
-__pycache__/*
+exdraw-venv/
+__pycache__/
