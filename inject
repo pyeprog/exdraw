@@ -1,3 +1,5 @@
+#! /home/pd/.pyenv/shims/python3
+
 import os
 import _pickle as pkl
 from time import sleep
@@ -22,6 +24,7 @@ class LocalApp(object):
                 break
         self._clean_injection()
         self._rm_config_in_probe()
+        self._clean_watching_dir()
         
     def _examine_watching_dir(self):
         if not os.path.isdir(info_dict["watching_path"]):
@@ -44,6 +47,10 @@ class LocalApp(object):
     def _rm_config_in_probe(self):
         if os.path.isfile(info_dict["probe_config_path"]):
             os.remove(info_dict["probe_config_path"])
+
+    def _clean_watching_dir(self):
+        if os.path.isdir(info_dict["watching_path"]):
+            rmtree(info_dict["watching_path"])
 
     def _work(self):
         for changes in watch(info_dict["watching_path"]):
