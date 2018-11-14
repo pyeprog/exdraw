@@ -18,10 +18,10 @@ def _dump_obj(func_type, obj):
         pkl.dump((func_type, obj), fp)
 
 def draw_single_shapely(geom):
-    _dump_obj(FuncType.draw_single_shapely, geom)
+    _dump_obj(FuncType["draw_single_shapely"], geom)
 
 def draw_shapely_one_by_one(geoms):
-    _dump_obj(FuncType.draw_shapely_one_by_one, geoms)
+    _dump_obj(FuncType["draw_shapely_one_by_one"], geoms)
 
 def draw_all_shapely(geoms):
-    _dump_obj(FuncType.draw_all_shapely, geoms)
+    _dump_obj(FuncType["draw_all_shapely"], geoms)
