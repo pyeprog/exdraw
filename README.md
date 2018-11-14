@@ -9,7 +9,8 @@ from _probe.draw_shapely import draw_all_shapley
 draw_all_shapely(your_shapely_geometries_list)
 ```
 ![plot](imgs/1.png)
-****And Bang! A nice plot will show up without any side effect caused.*
+
+***And Bang! A nice plot will show up without any side effect caused.
 
 ## Installation
 1. Make sure you have python3.6, python3.7 is not working well with geopandas.
