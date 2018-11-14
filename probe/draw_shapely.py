@@ -13,7 +13,7 @@ FuncType = info_dict.get("func_type")
 
 
 def _dump_obj(func_type, obj):
-    name = str(uuid())
+    name = str(uuid4())
     with open(os.path.join(watching_path, name), "wb") as fp:
         pkl.dump((func_type, obj), fp)
 
