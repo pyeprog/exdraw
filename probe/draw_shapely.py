@@ -4,7 +4,7 @@ from uuid import uuid4
 
 
 # load watching path
-config_file_path = os.path.join(os.path.dirname(__file__), "config")
+config_file_path = os.path.join(os.path.dirname(__file__), "_config")
 with open(config_file_path, "rb") as fp:
     info_dict = pkl.load(fp)
 
