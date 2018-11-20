@@ -31,6 +31,7 @@ class Drawer(object):
         fig = plt.figure(figsize=(n_cols*3.2, n_rows*2.4))
         for i, geom in enumerate(geoms):
             cur_ax = fig.add_subplot(n_cols, n_rows, i+1)
+            cur_ax.set_aspect('equal')
             xs, ys = geom.exterior.xy
             cur_ax.fill(xs, ys, alpha=0.5)
         plt.show()
