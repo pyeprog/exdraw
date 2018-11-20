@@ -1,8 +1,9 @@
 import math
+from random import choice
 import numpy as np
 import matplotlib.pyplot as plt
 from config import FuncType
-from geopandas import GeoSeries
+from geopandas import GeoSeries, GeoDataFrame
 
 color_map = ["tab10", "tab20", "Accent", "Dark2", "Paired", "Pastel1", "Set1", "Set2"]
 
@@ -12,24 +13,28 @@ class Drawer(object):
         if isinstance(geom, (list, tuple)):
             print("\tDraw_single_shapely could only handle single geometry")
             return
-        GeoSeries([geom]).plot(ax=plt.gca())
+        GeoSeries([geom]).plot(ax=plt.gca(), cmap=choice(color_map))
         plt.show()
 
     @staticmethod
     def draw_shapely_one_by_one(geoms):
         if len(geoms) == 0:
             print("\tNo geometry provided")
-        n_rows = math.ceil(len(geoms) / 4)
-        n_cols = 4 if n_rows > 1 else len(geoms)
-        plt.figure()
-        fig, axs = plt.subplots(figsize=[n_cols*3.2, n_rows*2.4], ncols=n_cols, nrows=n_rows, sharex=True, sharey=True)
-        if isinstance(axs, np.ndarray):
-            axs = axs.flatten()
-        print("\tTotal {} geoms drawn".format(len(geoms)))
-        for geom, cur_ax in zip(geoms, axs):
-            GeoSeries([geom]).plot(ax=cur_ax)
+            return
+        if len(geoms) <= 16:
+            n_rows = math.ceil(len(geoms) / 4)
+            n_cols = 4 if n_rows > 1 else len(geoms)
+        else:
+            n_rows = math.ceil(len(geoms) / 6)
+            n_cols = 6 if n_rows > 1 else len(geoms)
+        
+        fig = plt.figure(figsize=(n_cols*3.2, n_rows*2.4))
+        for i, geom in enumerate(geoms):
+            cur_ax = fig.add_subplot(n_cols, n_rows, i+1)
+            xs, ys = geom.exterior.xy
+            cur_ax.fill(xs, ys, alpha=0.5)
         plt.show()
-
+        
     @staticmethod
     def draw_all_shapely(geoms):
         print("\tTotal {} geoms drawn".format(len(geoms)))
