@@ -31,10 +31,11 @@ then you are good to go. Now you will find a _probe module in your project path.
 
 Now you can use several methods to draw shapely geometries.
 ```python
-from _probe.draw_shapely import draw_shapely_one_by_one, draw_single_shapely, draw_all_shapely
+from _probe.draw_shapely import draw_shapely_one_by_one, draw_single_shapely, draw_all_shapely, compare_two_shapely
 draw_all_shapely(some_geom_list)
 draw_shapely_one_by_one(some_geom_list)
 draw_single_shapeply(one_geom)
+compare_two_shapely(geom_list1, geom_list2)
 ```
 
 If you wanna stop this little tools, just `Ctrl-C` for several times, The injected `_probe` module will be removed automatically.
