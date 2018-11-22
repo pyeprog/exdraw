@@ -25,3 +25,6 @@ def draw_shapely_one_by_one(geoms):
 
 def draw_all_shapely(geoms):
     _dump_obj(FuncType["draw_all_shapely"], geoms)
+
+def compare_two_shapely(geoms1, geoms2):
+    _dump_obj(FuncType["compare_two_shapely"], (geoms1, geoms2))

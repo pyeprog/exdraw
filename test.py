@@ -30,19 +30,26 @@ def draw_single_shapely():
     example_geom = get_random_polygon()
     name = uuid4()
     with open("./watching/{}".format(name), "wb") as fp:
-        pkl.dump((info_dict["func_type"].draw_single_shapely, example_geom), fp)
+        pkl.dump((info_dict["func_type"]["draw_single_shapely"], example_geom), fp)
 
 def draw_shapely_one_by_one():
-    example_geoms = [get_random_polygon() for _ in range(10)]
+    example_geoms = [get_random_polygon() for _ in range(18)]
     name = uuid4()
     with open("./watching/{}".format(name), "wb") as fp:
-        pkl.dump((info_dict["func_type"].draw_shapely_one_by_one, example_geoms), fp)
+        pkl.dump((info_dict["func_type"]["draw_shapely_one_by_one"], example_geoms), fp)
 
 def draw_all_shapely():
     example_geoms = [get_random_separated_polygon(10, 50) for _ in range(10)]
     name = uuid4()
     with open("./watching/{}".format(name), "wb") as fp:
-        pkl.dump((info_dict["func_type"].draw_all_shapely, example_geoms), fp)
+        pkl.dump((info_dict["func_type"]["draw_all_shapely"], example_geoms), fp)
+
+def compare_two_shapely():
+    example_geoms1 = [get_random_separated_polygon(10, 50) for _ in range(10)]
+    example_geoms2 = [get_random_separated_polygon(10, 50) for _ in range(10)]
+    name = uuid4()
+    with open("./watching/{}".format(name), "wb") as fp:
+        pkl.dump((info_dict["func_type"]["compare_two_shapely"], (example_geoms1, example_geoms2)), fp)
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
@@ -50,5 +57,7 @@ if __name__ == '__main__':
             draw_single_shapely()
         elif sys.argv[1] == "1":
             draw_shapely_one_by_one()
-        else:
+        elif sys.argv[1] == "2":
             draw_all_shapely()
+        else:
+            compare_two_shapely()
