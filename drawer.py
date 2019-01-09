@@ -30,15 +30,27 @@ class Drawer(object):
             n_rows = math.ceil(len(geoms) / 6)
             n_cols = 6 if n_rows > 1 else len(geoms)
 
-        fig, ax_array = plt.subplots(nrows=n_rows, ncols=n_cols, sharex=True, sharey=True, squeeze=True)
+        fig, ax_array = plt.subplots(nrows=n_rows, ncols=n_cols)
         fig.set_size_inches(16, 10)
         if isinstance(ax_array, np.ndarray):
             ax_array = np.array(ax_array)
 
         for i, (geom, ax) in enumerate(zip(geoms, ax_array.flatten())):
             ax.set_aspect("equal")
-            xs, ys = geom.exterior.xy
-            ax.fill(xs, ys, facecolor=tab10_color[i % len(tab10_color)])
+            if not "Multi" in geom.type:
+                seperated_geoms = [geom]
+            else:
+                seperated_geoms = list(geom)
+            for seperate_geom in seperated_geoms:
+                if seperate_geom.type == "Polygon":
+                    xs, ys = seperate_geom.exterior.xy
+                    ax.fill(xs, ys, facecolor=tab10_color[i % len(tab10_color)])
+                elif seperate_geom.type == "LineString":
+                    xs = [coord[0] for coord in seperate_geom.coords]
+                    ys = [coord[1] for coord in seperate_geom.coords]
+                    ax.plot(xs, ys, facecolor=tab10_color[i % len(tab10_color)])
+
+
         plt.show()
 
     @staticmethod

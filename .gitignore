@@ -1,5 +1,7 @@
 underwatch
 underwatch/
+watching/
 .idea
+.python-version
 exdraw-venv/
 __pycache__/

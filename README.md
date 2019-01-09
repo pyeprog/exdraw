@@ -1,5 +1,7 @@
 # Exdraw, an external drawer for shapely geometry and more..
 
+
+> support python>=3.6
 If you found it too hard to draw shapely geometry within your running server for debugging, try this mini tool.
 
 This is a little tools that can draw shapely geometry using an independent file server. When the server is on, a module named `_probe` will be injected into your working project.
