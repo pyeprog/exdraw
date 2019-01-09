@@ -48,7 +48,7 @@ class Drawer(object):
                 elif seperate_geom.type == "LineString":
                     xs = [coord[0] for coord in seperate_geom.coords]
                     ys = [coord[1] for coord in seperate_geom.coords]
-                    ax.plot(xs, ys, facecolor=tab10_color[i % len(tab10_color)])
+                    ax.plot(xs, ys)
 
 
         plt.show()
