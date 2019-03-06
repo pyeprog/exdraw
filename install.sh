@@ -19,4 +19,5 @@ else
     echo "export PATH=\$PATH:~/bin/" > ~/.profile
 fi
 
+source ~/.profile
 echo "Installation done"
