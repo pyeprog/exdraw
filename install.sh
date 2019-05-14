@@ -13,11 +13,11 @@ cp -R $PWD/../exdraw ~/bin/exdraw
 chmod 755 ~/bin/exdraw/inject
 ln -s ~/bin/exdraw/inject ~/bin/inject
 
-if [ -f ~/.profile ]; then
-    echo "export PATH=\$PATH:~/bin/" >> ~/.profile
+if [ -f ~/.bashrc ]; then
+    echo "export PATH=\$PATH:$HOME/bin/" >> ~/.bashrc
 else
-    echo "export PATH=\$PATH:~/bin/" > ~/.profile
+    echo "export PATH=\$PATH:$HOME/bin/" > ~/.bashrc
 fi
 
-source ~/.profile
+source ~/.bashrc
 echo "Installation done"
