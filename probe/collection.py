@@ -8,6 +8,7 @@ with open(config_file_path, "rb") as fp:
     info_dict = pkl.load(fp)
 
 collect_path = info_dict.get("collect_path", "")
+print("collect_path=", collect_path)
 
 
 def collect_as_json(obj, filename: str):
