@@ -1,14 +1,14 @@
 #! /usr/bin/python3
 
-import os
 import _pickle as pkl
-from time import sleep
-from shutil import copytree, rmtree
-from watchgod import Change, watch
+import os
 from multiprocessing import Process
+from shutil import copytree, rmtree
+from time import sleep
 
+from config import info_dict
 from drawer import get_drawer
-from config import FuncType, info_dict
+from watchgod import Change, watch
 
 
 class LocalApp(object):
@@ -25,7 +25,7 @@ class LocalApp(object):
         self._clean_injection()
         self._rm_config_in_probe()
         self._clean_watching_dir()
-        
+
     def _examine_watching_dir(self):
         if not os.path.isdir(info_dict["watching_path"]):
             os.mkdir(info_dict["watching_path"])
@@ -68,10 +68,10 @@ class LocalApp(object):
             wp = Process(target=get_drawer(func_type), args=(arguments,))
             wp.start()
             wp.join()
-        except:
-            print("The file cannot be read properly")
-        
+        except Exception as e:
+            print("The file cannot be read properly, {}".format(str(e)))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     app = LocalApp()
     app.run()

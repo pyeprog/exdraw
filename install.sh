@@ -2,10 +2,10 @@
 
 pip3 install -r requirements.txt
 
-if [ ! -d ~/bin ]; then
-    mkdir ~/bin
-    if [ -d ~/bin/exdraw ]; then
-        rm -rf ~/bin/exdraw
+if [[ ! -d ~/bin ]]; then
+    mkdir -p $HOME/bin
+    if [[ -d $HOME/bin/exdraw ]]; then
+        rm -rf $HOME/bin/exdraw
     fi
 fi
 

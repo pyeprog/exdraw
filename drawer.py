@@ -1,13 +1,34 @@
 import math
-from random import choice, randint
-import numpy as np
-import matplotlib.pyplot as plt
-from config import FuncType
-from geopandas import GeoSeries, GeoDataFrame
 
-color_map_name = ["tab10", "tab20", "Accent", "Dark2", "Paired", "Pastel1", "Set1", "Set2"]
-tab10_color = ["tab:blue", "tab:orange", "tab:green", "tab:red", "tab:purple", "tab:brown", "tab:pink",
-               "tab:gray", "tab:olive", "tab:cyan"]
+import matplotlib.pyplot as plt
+import numpy as np
+from geopandas import GeoSeries
+
+from config import FuncType
+
+color_map_name = [
+    "tab10",
+    "tab20",
+    "Accent",
+    "Dark2",
+    "Paired",
+    "Pastel1",
+    "Set1",
+    "Set2",
+]
+tab10_color = [
+    "tab:blue",
+    "tab:orange",
+    "tab:green",
+    "tab:red",
+    "tab:purple",
+    "tab:brown",
+    "tab:pink",
+    "tab:gray",
+    "tab:olive",
+    "tab:cyan",
+]
+
 
 class Drawer(object):
     @staticmethod
@@ -37,7 +58,7 @@ class Drawer(object):
 
         for i, (geom, ax) in enumerate(zip(geoms, ax_array.flatten())):
             ax.set_aspect("equal")
-            if not "Multi" in geom.type:
+            if "Multi" not in geom.type:
                 seperated_geoms = [geom]
             else:
                 seperated_geoms = list(geom)
@@ -49,7 +70,6 @@ class Drawer(object):
                     xs = [coord[0] for coord in seperate_geom.coords]
                     ys = [coord[1] for coord in seperate_geom.coords]
                     ax.plot(xs, ys)
-
 
         plt.show()
 
@@ -65,17 +85,25 @@ class Drawer(object):
         geoms1, geoms2 = two_geoms_tuple
         geoms1.sort(key=lambda geom: geom.area, reverse=True)
         geoms2.sort(key=lambda geom: geom.area, reverse=True)
-        print("Geometry group1: {}\n Geometry group2: {}".format(len(geoms1), len(geoms2)))
-        fig, (ax1, ax2) = plt.subplots(nrows=1, ncols=2, sharex=True, sharey=True, squeeze=True)
+        print(
+            "Geometry group1: {}\n Geometry group2: {}".format(len(geoms1), len(geoms2))
+        )
+        fig, (ax1, ax2) = plt.subplots(
+            nrows=1, ncols=2, sharex=True, sharey=True, squeeze=True
+        )
         fig.set_size_inches(16, 10)
         GeoSeries(geoms1).plot(ax=ax1, cmap=color_map_name[0])
         GeoSeries(geoms2).plot(ax=ax2, cmap=color_map_name[0])
         plt.show()
 
-func_type_to_func = {FuncType["draw_single_shapely"]: Drawer.draw_single_shapely,
-                     FuncType["draw_shapely_one_by_one"]: Drawer.draw_shapely_one_by_one,
-                     FuncType["draw_all_shapely"]: Drawer.draw_all_shapely,
-                     FuncType["compare_two_shapely"]: Drawer.compare_two_shapely}
+
+func_type_to_func = {
+    FuncType["draw_single_shapely"]: Drawer.draw_single_shapely,
+    FuncType["draw_shapely_one_by_one"]: Drawer.draw_shapely_one_by_one,
+    FuncType["draw_all_shapely"]: Drawer.draw_all_shapely,
+    FuncType["compare_two_shapely"]: Drawer.compare_two_shapely,
+}
+
 
 def get_drawer(func_type: FuncType):
     return func_type_to_func[func_type]

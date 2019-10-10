@@ -5,3 +5,6 @@ watching/
 .python-version
 exdraw-venv/
 __pycache__/
+tags
+*.swp
+*.swo
