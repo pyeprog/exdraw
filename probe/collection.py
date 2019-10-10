@@ -11,5 +11,5 @@ collect_path = info_dict.get("collect_path", "")
 
 
 def collect_as_json(obj, filename: str):
-    with open(filename, "w") as fp:
+    with open(os.path.join(collect_path, filename), "w") as fp:
         json.dump(obj, fp)
