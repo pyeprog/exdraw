@@ -1,4 +1,4 @@
-#! /usr/bin/python3
+#! /home/pd/.pyenv/shims/python3
 
 import _pickle as pkl
 import os
@@ -14,6 +14,7 @@ from watchgod import Change, watch
 class LocalApp(object):
     def run(self):
         self._examine_watching_dir()
+        self._examine_collection_dir()
         self._inject_config_to_probe()
         self._inject_probe()
         while True:
@@ -29,6 +30,10 @@ class LocalApp(object):
     def _examine_watching_dir(self):
         if not os.path.isdir(info_dict["watching_path"]):
             os.mkdir(info_dict["watching_path"])
+
+    def _examine_collection_dir(self):
+        if not os.path.isdir(info_dict["collect_path"]):
+            os.mkdir(info_dict["collect_path"])
 
     def _inject_probe(self):
         self._clean_injection()
