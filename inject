@@ -1,4 +1,4 @@
-#! /home/pd/.pyenv/shims/python3
+#!/usr/bin/env python3
 
 import _pickle as pkl
 import os

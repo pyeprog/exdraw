@@ -9,9 +9,9 @@ if [[ ! -d $HOME/.local/bin ]]; then
     fi
 fi
 
-sudo cp -R "$PWD/../exdraw $HOME/.local/bin/exdraw"
-sudo chmod 755 ~/bin/exdraw/inject
-sudo ln -s ~/bin/exdraw/inject ~/bin/inject
+cp -R "$PWD/../exdraw" "$HOME/.local/bin/exdraw"
+chmod 755 "$HOME/.local/bin/exdraw/inject"
+ln -s "$HOME/.local/bin/exdraw/inject" "$HOME/.local/bin/inject"
 
 source ~/.bashrc
 echo "Installation done"
